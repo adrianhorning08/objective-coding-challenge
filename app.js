@@ -33,6 +33,18 @@ app.get('/api/applicants', async (req, res) =>{
   })
 });
 
+app.get('/api/jobs', async (req, res) =>{
+  Job.find((err, jobs) => {
+     res.send(jobs)
+  })
+});
+
+app.get('/api/skills', async (req, res) =>{
+  Skill.find((err, skills) => {
+     res.send(skills)
+  })
+});
+
 app.listen(3000, function () {
   console.log('Dev app listening on port 3000!');
 });
