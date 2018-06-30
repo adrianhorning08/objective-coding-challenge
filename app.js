@@ -7,7 +7,6 @@ const Job = require('./models/Job');
 const Skill = require('./models/Skill');
 const key = require('./config');
 
-
 const app = express();
 
 mongoose.connect(key.mongoURI);
@@ -27,20 +26,20 @@ app.get('/', async (req, res) => {
 //     }
 // })
 
-app.get('/api/applicants', async (req, res) =>{
-  Applicant.find((err, applicants) => {
+app.get('/api/jobs', async (req, res) =>{
+  Job.find((err, jobs) => {
+    res.send(jobs)
+  })
+});
+
+app.get('/api/:jobId/applicants', async (req, res) =>{
+  Applicant.find( { job_id: Number(req.params.jobId) }, (err, applicants) => {
      res.send(applicants)
   })
 });
 
-app.get('/api/jobs', async (req, res) =>{
-  Job.find((err, jobs) => {
-     res.send(jobs)
-  })
-});
-
-app.get('/api/skills', async (req, res) =>{
-  Skill.find((err, skills) => {
+app.get('/api/:applicantId/skills', async (req, res) =>{
+  Skill.find( { applicant_id: Number(req.params.applicantId) }, (err, skills) => {
      res.send(skills)
   })
 });

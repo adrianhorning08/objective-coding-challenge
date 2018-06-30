@@ -7,7 +7,7 @@ const applicantSchema = new Schema({
   email: String,
   website: String,
   cover_letter: String,
-  job_id: Schema.ObjectId
+  job_id: Number
 }, {collection: 'Applicants'});
 
 module.exports = mongoose.model('Applicant', applicantSchema);
