@@ -193,6 +193,9 @@ var Main = function (_React$Component) {
   }
 
   _createClass(Main, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {}
+  }, {
     key: 'render',
     value: function render() {
       return 'hey';
