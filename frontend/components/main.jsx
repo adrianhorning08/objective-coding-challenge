@@ -7,8 +7,9 @@ class Main extends React.Component {
     this.state = {
       jobs: null,
       applicants: null,
-      skills: null
+      skils: null
     }
+    this.formatData = this.formatData.bind(this);
   }
 
   async componentDidMount() {
@@ -16,15 +17,41 @@ class Main extends React.Component {
    await models.forEach(async (model) => {
      const resp = await fetch(`/api/${model}`);
      const json = await resp.json();
-     this.setState( { [model]: json } );
+     this.setState({ [model]: json });
    })
+  }
+
+  formatData() {
+    const newState = {};
+    this.state.jobs.forEach(job => {
+      newState[job.id] = job;
+      newState[job.id].applicants = [];
+      this.state.applicants.forEach(applicant => {
+        if (applicant.job_id === job.id) {
+          applicant.skills = [];
+          this.state.skills.forEach(skill => {
+            if (skill.applicant_id === applicant.id) {
+              applicant.skills.push( {
+                [skill.id]: skill
+              })
+            }
+          })
+          newState[job.id].applicants.push(
+            {
+              [applicant.id]: applicant,
+            }
+          )
+        }
+      })
+
+    })
+    return newState;
   }
 
   render() {
 
     // I need an ApplicantsComponent that fetches Jobid.applicants /api/1/applicants
     // Its just that the first tr has to contain the job title
-
 
     let skillCount = 0;
     const skills = new Set;
@@ -38,8 +65,8 @@ class Main extends React.Component {
     }
 
     let table = null;
-
-    if (this.state.applicants) {
+    if (this.state.applicants && this.state.skills && this.state.jobs) {
+      const newData = this.formatData();
       table = (
         <table className="job-applicants">
           <thead>
@@ -53,12 +80,10 @@ class Main extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.jobs.map(job => {
-            <td rowspan="10" class="job-name">Web Developer</td>
+            {Object.values(newData).map(job => {
               return <JobIndexItem
                         key = {job.id}
-                        applicants = {this.state.applicants}
-                        skills = {this.state.skills}
+                        job = {job}
                       />
             })}
           </tbody>

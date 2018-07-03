@@ -15,28 +15,52 @@ app.get('/', async (req, res) => {
   res.sendFile(path.join(__dirname, '/index.html'));
 });
 
+
+/*
+  {
+    jobId : {
+      ...jobObj,
+      applicants: [ {
+        ...applicantObj,
+        skills: []
+      } ],
+    }
+  }
+*/
+
+// get /api/applicants
+
+
 app.get('/api/jobs', async (req, res) =>{
   Job.find((err, jobs) => {
     res.send(jobs)
   })
 });
+
 app.get('/api/applicants', async (req, res) =>{
   Applicant.find((err, applicants) => {
     res.send(applicants)
   })
 });
 
-app.get('/api/:jobId/applicants', async (req, res) =>{
-  Applicant.find( { job_id: Number(req.params.jobId) }, (err, applicants) => {
-     res.send(applicants)
-  })
-});
+// app.get('/api/jobApplicants', async (req, res) =>{
+//   const formattedData = {};
+//   Job.find()
+//   .then(jobs => {
+//     jobs.forEach(job => {
+//       formattedData[job.id] = job;
+//       Applicant.find({job_id: job.id})
+//       .then(applicants => {
+//         applicants.forEach(applicant => {
+//           formattedData[job.id].applicants.push(applicant)
+//         })
+//         res.send(formattedData)
+//       })
+//     })
+//   })
+// });
 
-app.get('/api/:applicantId/skills', async (req, res) =>{
-  Skill.find( { applicant_id: Number(req.params.applicantId) }, (err, skills) => {
-     res.send(skills)
-  })
-});
+
 
 app.get('/api/skills', async (req, res) =>{
   Skill.find((err, skills) => {

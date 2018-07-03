@@ -145,6 +145,7 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var JobIndexItem = function JobIndexItem(props) {
+
   console.log(props);
 
   return null;
@@ -201,8 +202,9 @@ var Main = function (_React$Component) {
     _this.state = {
       jobs: null,
       applicants: null,
-      skills: null
+      skils: null
     };
+    _this.formatData = _this.formatData.bind(_this);
     return _this;
   }
 
@@ -267,13 +269,34 @@ var Main = function (_React$Component) {
       return componentDidMount;
     }()
   }, {
+    key: 'formatData',
+    value: function formatData() {
+      var _this3 = this;
+
+      var newState = {};
+      this.state.jobs.forEach(function (job) {
+        newState[job.id] = job;
+        newState[job.id].applicants = [];
+        _this3.state.applicants.forEach(function (applicant) {
+          if (applicant.job_id === job.id) {
+            applicant.skills = [];
+            _this3.state.skills.forEach(function (skill) {
+              if (skill.applicant_id === applicant.id) {
+                applicant.skills.push(_defineProperty({}, skill.id, skill));
+              }
+            });
+            newState[job.id].applicants.push(_defineProperty({}, applicant.id, applicant));
+          }
+        });
+      });
+      return newState;
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this3 = this;
 
       // I need an ApplicantsComponent that fetches Jobid.applicants /api/1/applicants
       // Its just that the first tr has to contain the job title
-
 
       var skillCount = 0;
       var skills = new Set();
@@ -287,8 +310,8 @@ var Main = function (_React$Component) {
       }
 
       var table = null;
-
-      if (this.state.applicants) {
+      if (this.state.applicants && this.state.skills && this.state.jobs) {
+        var newData = this.formatData();
         table = _react2.default.createElement(
           'table',
           { className: 'job-applicants' },
@@ -333,16 +356,10 @@ var Main = function (_React$Component) {
           _react2.default.createElement(
             'tbody',
             null,
-            this.state.jobs.map(function (job) {
-              _react2.default.createElement(
-                'td',
-                { rowspan: '10', 'class': 'job-name' },
-                'Web Developer'
-              );
+            Object.values(newData).map(function (job) {
               return _react2.default.createElement(_jobIndexItem2.default, {
                 key: job.id,
-                applicants: _this3.state.applicants,
-                skills: _this3.state.skills
+                job: job
               });
             })
           ),
