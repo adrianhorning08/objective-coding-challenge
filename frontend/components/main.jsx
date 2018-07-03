@@ -26,21 +26,17 @@ class Main extends React.Component {
     this.state.jobs.forEach(job => {
       newState[job.id] = job;
       newState[job.id].applicants = [];
+      newState[job.id].skillCount = 0;
       this.state.applicants.forEach(applicant => {
         if (applicant.job_id === job.id) {
           applicant.skills = [];
           this.state.skills.forEach(skill => {
             if (skill.applicant_id === applicant.id) {
-              applicant.skills.push( {
-                [skill.id]: skill
-              })
+              newState[job.id].skillCount++;
+              applicant.skills.push(skill);
             }
           })
-          newState[job.id].applicants.push(
-            {
-              [applicant.id]: applicant,
-            }
-          )
+          newState[job.id].applicants.push(applicant)
         }
       })
 
@@ -67,6 +63,17 @@ class Main extends React.Component {
     let table = null;
     if (this.state.applicants && this.state.skills && this.state.jobs) {
       const newData = this.formatData();
+
+      const list = Object.values(newData).map(job => {
+        return (
+             <JobIndexItem
+               job = {job}
+               key = {job.id}
+               />
+        );
+      });
+
+
       table = (
         <table className="job-applicants">
           <thead>
@@ -80,12 +87,7 @@ class Main extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {Object.values(newData).map(job => {
-              return <JobIndexItem
-                        key = {job.id}
-                        job = {job}
-                      />
-            })}
+            {list}
           </tbody>
           <tfoot>
             <tr>

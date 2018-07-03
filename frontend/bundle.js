@@ -124,6 +124,78 @@ exports.default = App;
 
 /***/ }),
 
+/***/ "./frontend/components/blahIndexItem.jsx":
+/*!***********************************************!*\
+  !*** ./frontend/components/blahIndexItem.jsx ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+     value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var blahIndexItem = function blahIndexItem(props) {
+
+     return props.job.applicants.map(function (applicant) {
+          return _react2.default.createElement(
+               "tr",
+               { key: applicant.id },
+               _react2.default.createElement(
+                    "td",
+                    { rowSpan: props.job.skillCount, className: "job-name" },
+                    props.job.name
+               ),
+               _react2.default.createElement(
+                    "td",
+                    { rowSpan: applicant.skills.length, className: "applicant-name" },
+                    applicant.name
+               ),
+               _react2.default.createElement(
+                    "td",
+                    { rowSpan: applicant.skills.length },
+                    _react2.default.createElement(
+                         "a",
+                         { href: "mailto:" + applicant.email },
+                         applicant.email
+                    )
+               ),
+               _react2.default.createElement(
+                    "td",
+                    { rowSpan: applicant.skills.length },
+                    _react2.default.createElement(
+                         "a",
+                         { href: "http://" + applicant.website + "/" },
+                         applicant.website
+                    )
+               ),
+               _react2.default.createElement(
+                    "td",
+                    null,
+                    applicant.skills[0].name
+               ),
+               _react2.default.createElement(
+                    "td",
+                    { rowSpan: applicant.skills.length },
+                    applicant.cover_letter
+               )
+          );
+     });
+};
+
+exports.default = blahIndexItem;
+
+/***/ }),
+
 /***/ "./frontend/components/jobIndexItem.jsx":
 /*!**********************************************!*\
   !*** ./frontend/components/jobIndexItem.jsx ***!
@@ -142,13 +214,115 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _blahIndexItem = __webpack_require__(/*! ./blahIndexItem */ "./frontend/components/blahIndexItem.jsx");
+
+var _blahIndexItem2 = _interopRequireDefault(_blahIndexItem);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var JobIndexItem = function JobIndexItem(props) {
+  var rows = [];
 
-  console.log(props);
+  props.job.applicants.forEach(function (applicant, appIdx) {
+    applicant.skills.forEach(function (skill, skillIdx) {
+      if (appIdx === 0 && skillIdx === 0) {
+        rows.push(_react2.default.createElement(
+          'tr',
+          { key: applicant.id },
+          _react2.default.createElement(
+            'td',
+            { rowSpan: props.job.skillCount, className: 'job-name' },
+            props.job.name
+          ),
+          _react2.default.createElement(
+            'td',
+            { rowSpan: applicant.skills.length, className: 'applicant-name' },
+            applicant.name
+          ),
+          _react2.default.createElement(
+            'td',
+            { rowSpan: applicant.skills.length },
+            _react2.default.createElement(
+              'a',
+              { href: 'mailto:' + applicant.email },
+              applicant.email
+            )
+          ),
+          _react2.default.createElement(
+            'td',
+            { rowSpan: applicant.skills.length },
+            _react2.default.createElement(
+              'a',
+              { href: 'http://' + applicant.website + '/' },
+              applicant.website
+            )
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            skill.name
+          ),
+          _react2.default.createElement(
+            'td',
+            { rowSpan: applicant.skills.length },
+            applicant.cover_letter
+          )
+        ));
+      } else if (appIdx !== 0 && skillIdx === 0) {
+        rows.push(_react2.default.createElement(
+          'tr',
+          { key: applicant.id },
+          _react2.default.createElement(
+            'td',
+            { rowSpan: applicant.skills.length, className: 'applicant-name' },
+            applicant.name
+          ),
+          _react2.default.createElement(
+            'td',
+            { rowSpan: applicant.skills.length },
+            _react2.default.createElement(
+              'a',
+              { href: 'mailto:' + applicant.email },
+              applicant.email
+            )
+          ),
+          _react2.default.createElement(
+            'td',
+            { rowSpan: applicant.skills.length },
+            _react2.default.createElement(
+              'a',
+              { href: 'http://' + applicant.website + '/' },
+              applicant.website
+            )
+          ),
+          _react2.default.createElement(
+            'td',
+            null,
+            skill.name
+          ),
+          _react2.default.createElement(
+            'td',
+            { rowSpan: applicant.skills.length },
+            applicant.cover_letter
+          )
+        ));
+      } else {
+        rows.push(_react2.default.createElement(
+          'tr',
+          null,
+          _react2.default.createElement(
+            'td',
+            null,
+            skill.name
+          )
+        ));
+      }
+    });
+  });
 
-  return null;
+  return rows.map(function (row) {
+    return row;
+  });
 };
 
 exports.default = JobIndexItem;
@@ -277,15 +451,17 @@ var Main = function (_React$Component) {
       this.state.jobs.forEach(function (job) {
         newState[job.id] = job;
         newState[job.id].applicants = [];
+        newState[job.id].skillCount = 0;
         _this3.state.applicants.forEach(function (applicant) {
           if (applicant.job_id === job.id) {
             applicant.skills = [];
             _this3.state.skills.forEach(function (skill) {
               if (skill.applicant_id === applicant.id) {
-                applicant.skills.push(_defineProperty({}, skill.id, skill));
+                newState[job.id].skillCount++;
+                applicant.skills.push(skill);
               }
             });
-            newState[job.id].applicants.push(_defineProperty({}, applicant.id, applicant));
+            newState[job.id].applicants.push(applicant);
           }
         });
       });
@@ -312,6 +488,14 @@ var Main = function (_React$Component) {
       var table = null;
       if (this.state.applicants && this.state.skills && this.state.jobs) {
         var newData = this.formatData();
+
+        var list = Object.values(newData).map(function (job) {
+          return _react2.default.createElement(_jobIndexItem2.default, {
+            job: job,
+            key: job.id
+          });
+        });
+
         table = _react2.default.createElement(
           'table',
           { className: 'job-applicants' },
@@ -356,12 +540,7 @@ var Main = function (_React$Component) {
           _react2.default.createElement(
             'tbody',
             null,
-            Object.values(newData).map(function (job) {
-              return _react2.default.createElement(_jobIndexItem2.default, {
-                key: job.id,
-                job: job
-              });
-            })
+            list
           ),
           _react2.default.createElement(
             'tfoot',
