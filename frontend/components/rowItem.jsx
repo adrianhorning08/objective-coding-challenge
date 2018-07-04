@@ -1,6 +1,8 @@
 import React from 'react';
 import TableRowElement from './trElement';
 
+// comment here
+
 const RowItem = props => {
   if (props.job.applicants.length === 0) {
     return (

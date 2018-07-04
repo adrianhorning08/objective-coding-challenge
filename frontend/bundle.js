@@ -395,6 +395,8 @@ var _trElement2 = _interopRequireDefault(_trElement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// comment here
+
 var RowItem = function RowItem(props) {
   if (props.job.applicants.length === 0) {
     return _react2.default.createElement(_trElement2.default, {
