@@ -1,5 +1,5 @@
 import React from 'react';
-import JobIndexItem from './jobIndexItem';
+import RowItem from './rowItem';
 
 class Main extends React.Component {
   constructor(props) {
@@ -9,7 +9,7 @@ class Main extends React.Component {
       applicants: null,
       skils: null
     }
-    this.formatData = this.formatData.bind(this);
+    this.reFormatData = this.reFormatData.bind(this);
   }
 
   async componentDidMount() {
@@ -21,14 +21,18 @@ class Main extends React.Component {
    })
   }
 
-  formatData() {
+  reFormatData() {
+    // reformat the data
     const newState = {};
     this.state.jobs.forEach(job => {
       newState[job.id] = job;
+      // create array to hold applicants of specific job
       newState[job.id].applicants = [];
+      // skillCount is for rowspan later
       newState[job.id].skillCount = 0;
       this.state.applicants.forEach(applicant => {
         if (applicant.job_id === job.id) {
+          // create array to hold skills of specific applicant
           applicant.skills = [];
           this.state.skills.forEach(skill => {
             if (skill.applicant_id === applicant.id) {
@@ -45,16 +49,13 @@ class Main extends React.Component {
   }
 
   render() {
-
-    // I need an ApplicantsComponent that fetches Jobid.applicants /api/1/applicants
-    // Its just that the first tr has to contain the job title
-
-    let skillCount = 0;
+    // uniqueSkillCount for footer
+    let uniqueSkillCount = 0;
     const skills = new Set;
     if (this.state.skills) {
       this.state.skills.forEach(skill => {
         if (!skills.has(skill.name)) {
-          skillCount++;
+          uniqueSkillCount++;
           skills.add(skill.name)
         }
       })
@@ -62,17 +63,15 @@ class Main extends React.Component {
 
     let table = null;
     if (this.state.applicants && this.state.skills && this.state.jobs) {
-      const newData = this.formatData();
-
+      const newData = this.reFormatData();
       const list = Object.values(newData).map(job => {
         return (
-             <JobIndexItem
+             <RowItem
                job = {job}
                key = {job.id}
                />
         );
       });
-
 
       table = (
         <table className="job-applicants">
@@ -91,7 +90,7 @@ class Main extends React.Component {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="6">{this.state.applicants.length} Applicants, {skillCount} Unique Skills</td>
+              <td colSpan="6">{this.state.applicants.length} Applicants, {uniqueSkillCount} Unique Skills</td>
             </tr>
           </tfoot>
         </table>
