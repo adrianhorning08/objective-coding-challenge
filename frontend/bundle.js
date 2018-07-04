@@ -396,42 +396,29 @@ var _trElement2 = _interopRequireDefault(_trElement);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RowItem = function RowItem(props) {
-  if (props.job.applicants.length === 0) {
+
+  var createRowElement = function createRowElement(key, first, job, applicant, skill) {
     return _react2.default.createElement(_trElement2.default, {
-      key: props.job._id,
-      first: true,
-      job: props.job,
-      applicant: false,
-      skill: false
+      key: key,
+      first: first,
+      job: job,
+      applicant: applicant,
+      skill: skill
     });
+  };
+
+  if (props.job.applicants.length === 0) {
+    return createRowElement(props.job_id, true, props.job, false, false);
   } else {
     return props.job.applicants.map(function (applicant, appIdx) {
       if (applicant.skills.length === 0) {
-        return _react2.default.createElement(_trElement2.default, {
-          key: applicant._id,
-          first: false,
-          job: props.job,
-          applicant: applicant,
-          skill: false
-        });
+        return createRowElement(applicant._id, false, props.job, applicant, false);
       } else {
         return applicant.skills.map(function (skill, skillIdx) {
           if (appIdx === 0 && skillIdx === 0) {
-            return _react2.default.createElement(_trElement2.default, {
-              key: applicant._id,
-              first: true,
-              job: props.job,
-              applicant: applicant,
-              skill: skill
-            });
+            return createRowElement(applicant._id, true, props.job, applicant, skill);
           } else if (appIdx !== 0 && skillIdx === 0) {
-            return _react2.default.createElement(_trElement2.default, {
-              key: applicant._id,
-              first: false,
-              job: props.job,
-              applicant: applicant,
-              skill: skill
-            });
+            return createRowElement(applicant._id, false, props.job, applicant, skill);
           } else {
             return _react2.default.createElement(
               'tr',
