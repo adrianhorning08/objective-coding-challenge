@@ -47,7 +47,7 @@ const TableRowElement = props => {
         {props.applicant ?
           props.applicant.cover_letter ?
           props.applicant.cover_letter :
-          "This fool aint got a cover letter!?"
+          null
           : null
         }
       </td>

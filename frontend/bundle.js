@@ -519,7 +519,7 @@ var TableRowElement = function TableRowElement(props) {
     _react2.default.createElement(
       "td",
       { rowSpan: props.skill ? props.applicant.skills.length : 1 },
-      props.applicant ? props.applicant.cover_letter ? props.applicant.cover_letter : "This fool aint got a cover letter!?" : null
+      props.applicant ? props.applicant.cover_letter ? props.applicant.cover_letter : null : null
     )
   );
 };
