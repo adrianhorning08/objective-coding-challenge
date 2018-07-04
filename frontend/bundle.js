@@ -474,7 +474,6 @@ var _react2 = _interopRequireDefault(_react);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var TableRowElement = function TableRowElement(props) {
-  console.log(props);
   return _react2.default.createElement(
     "tr",
     { key: props.applicant ? props.applicant.id : props.job._id },
@@ -516,11 +515,7 @@ var TableRowElement = function TableRowElement(props) {
       "td",
       null,
       props.skill.name
-    ) : _react2.default.createElement(
-      "td",
-      null,
-      "none"
-    ),
+    ) : _react2.default.createElement("td", null),
     _react2.default.createElement(
       "td",
       { rowSpan: props.skill ? props.applicant.skills.length : 1 },

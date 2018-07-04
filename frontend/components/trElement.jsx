@@ -1,7 +1,6 @@
 import React from 'react';
 
 const TableRowElement = props => {
-  console.log(props);
   return (
     <tr key={props.applicant ? props.applicant.id : props.job._id}>
       {props.first ?
@@ -30,8 +29,8 @@ const TableRowElement = props => {
         {props.applicant ?
           <a href={`http://${props.applicant.website}/`}>
             {props.applicant.website}
-          </a> :
-          null
+          </a>
+          : null
         }
       </td>
 
@@ -41,15 +40,15 @@ const TableRowElement = props => {
         </td>
         :
         <td>
-          none
-        </td>}
+        </td>
+      }
 
       <td rowSpan={props.skill ? props.applicant.skills.length : 1}>
         {props.applicant ?
           props.applicant.cover_letter ?
           props.applicant.cover_letter :
-          "This fool aint got a cover letter!?" :
-          null
+          "This fool aint got a cover letter!?"
+          : null
         }
       </td>
     </tr>
