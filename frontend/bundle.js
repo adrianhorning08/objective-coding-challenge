@@ -411,27 +411,23 @@ var RowItem = function RowItem(props) {
     return createRowElement(props.job_id, true, props.job, false, false);
   } else {
     return props.job.applicants.map(function (applicant, appIdx) {
-      if (applicant.skills.length === 0) {
-        return createRowElement(applicant._id, false, props.job, applicant, false);
-      } else {
-        return applicant.skills.map(function (skill, skillIdx) {
-          if (appIdx === 0 && skillIdx === 0) {
-            return createRowElement(applicant._id, true, props.job, applicant, skill);
-          } else if (appIdx !== 0 && skillIdx === 0) {
-            return createRowElement(applicant._id, false, props.job, applicant, skill);
-          } else {
-            return _react2.default.createElement(
-              'tr',
-              { key: skill._id },
-              _react2.default.createElement(
-                'td',
-                null,
-                skill.name
-              )
-            );
-          }
-        });
-      }
+      return applicant.skills.map(function (skill, skillIdx) {
+        if (appIdx === 0 && skillIdx === 0) {
+          return createRowElement(applicant._id, true, props.job, applicant, skill);
+        } else if (appIdx !== 0 && skillIdx === 0) {
+          return createRowElement(applicant._id, false, props.job, applicant, skill);
+        } else {
+          return _react2.default.createElement(
+            'tr',
+            { key: skill._id },
+            _react2.default.createElement(
+              'td',
+              null,
+              skill.name
+            )
+          );
+        }
+      });
     });
   }
 };
