@@ -40,10 +40,14 @@ class Main extends React.Component {
               applicant.skills.push(skill);
             }
           })
+          // if applicant doesn't have skills (thats embarassing)
+          if (applicant.skills.length === 0) {
+            newState[applicant.job_id].skillCount++;
+            applicant.skills.push(null);
+          }
           newState[job.id].applicants.push(applicant)
         }
       })
-
     })
     return newState;
   }
@@ -72,7 +76,6 @@ class Main extends React.Component {
                />
         );
       });
-
       table = (
         <table className="job-applicants">
           <thead>
@@ -90,13 +93,14 @@ class Main extends React.Component {
           </tbody>
           <tfoot>
             <tr>
-              <td colSpan="6">{this.state.applicants.length} Applicants, {uniqueSkillCount} Unique Skills</td>
+              <td
+                colSpan="6">{this.state.applicants.length} Applicants, {uniqueSkillCount} Unique Skills
+              </td>
             </tr>
           </tfoot>
         </table>
       );
     }
-
     return table;
   }
 }
