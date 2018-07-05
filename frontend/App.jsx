@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import Main from './components/main';
+import Table from './components/table';
 
 const App = () => (
     <div id="page">
-      <Route exact path ="/" component={Main}/>
+      <Route exact path ="/" component={Table}/>
     </div>
 );
 

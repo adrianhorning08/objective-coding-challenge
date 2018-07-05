@@ -26,8 +26,6 @@ I used the MERN stack. Used [mLab](https://mlab.com/) to host MongoDB.
 * In MongoDB, created separate collections for applicants, jobs, and skills respectively
 * Created API to fetch all applicants, jobs, and skills from DB
 * Reformatted data on frontend to make it easier to find associations
-* Looped through that data and included the appropriate HTML `table` tags and rendered the table
-
 
 ## Additional Thoughts
 
