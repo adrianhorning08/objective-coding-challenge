@@ -14,10 +14,11 @@ index.html example.
 `node v9.11.1`
 `npm 5.6.0`
 1. Clone repo `git clone https://github.com/adrianhorning08/objective-coding-challenge.git`
-2. Run `npm install` to run dependencies
-3. Run `npm start` to start server
-4. Navigate to [local_host](http://localhost:3000)
-5. Enjoy!
+2. `cd objective-coding-challenge`
+3. Run `npm install` to run dependencies
+4. Run `npm start` to start server
+5. Navigate to [local_host](http://localhost:3000)
+6. Enjoy!
 
 ## Tech Used
 I used the MERN stack. Used [mLab](https://mlab.com/) to host MongoDB.
