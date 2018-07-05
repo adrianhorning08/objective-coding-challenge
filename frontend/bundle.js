@@ -253,6 +253,8 @@ var Main = function (_React$Component) {
       skils: null
     };
     _this.reFormatData = _this.reFormatData.bind(_this);
+    _this.countUniqueSkills = _this.countUniqueSkills.bind(_this);
+    _this.renderTableBody = _this.renderTableBody.bind(_this);
     return _this;
   }
 
@@ -351,9 +353,8 @@ var Main = function (_React$Component) {
       return newState;
     }
   }, {
-    key: 'render',
-    value: function render() {
-      // uniqueSkillCount for footer
+    key: 'countUniqueSkills',
+    value: function countUniqueSkills() {
       var uniqueSkillCount = 0;
       var skills = new Set();
       if (this.state.skills) {
@@ -364,18 +365,25 @@ var Main = function (_React$Component) {
           }
         });
       }
-
-      var table = null;
-      if (this.state.applicants && this.state.skills && this.state.jobs) {
-        var newData = this.reFormatData();
-
-        var list = Object.values(newData).map(function (job) {
-          return _react2.default.createElement(_rowItem2.default, {
-            job: job,
-            key: job.id
-          });
+      return uniqueSkillCount;
+    }
+  }, {
+    key: 'renderTableBody',
+    value: function renderTableBody() {
+      var newData = this.reFormatData();
+      return Object.values(newData).map(function (job) {
+        return _react2.default.createElement(_rowItem2.default, {
+          job: job,
+          key: job.id
         });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var table = null;
 
+      if (this.state.applicants && this.state.skills && this.state.jobs) {
         table = _react2.default.createElement(
           'table',
           { className: 'job-applicants' },
@@ -420,7 +428,7 @@ var Main = function (_React$Component) {
           _react2.default.createElement(
             'tbody',
             null,
-            list
+            this.renderTableBody()
           ),
           _react2.default.createElement(
             'tfoot',
@@ -434,7 +442,7 @@ var Main = function (_React$Component) {
                   colSpan: '6' },
                 this.state.applicants.length,
                 ' Applicants, ',
-                uniqueSkillCount,
+                this.countUniqueSkills(),
                 ' Unique Skills'
               )
             )

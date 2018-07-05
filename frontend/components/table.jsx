@@ -10,6 +10,8 @@ class Main extends React.Component {
       skils: null
     }
     this.reFormatData = this.reFormatData.bind(this);
+    this.countUniqueSkills = this.countUniqueSkills.bind(this);
+    this.renderTableBody = this.renderTableBody.bind(this);
   }
 
   async componentDidMount() {
@@ -52,8 +54,7 @@ class Main extends React.Component {
     return newState;
   }
 
-  render() {
-    // uniqueSkillCount for footer
+  countUniqueSkills() {
     let uniqueSkillCount = 0;
     const skills = new Set;
     if (this.state.skills) {
@@ -64,20 +65,25 @@ class Main extends React.Component {
         }
       })
     }
+    return uniqueSkillCount;
+  }
 
+  renderTableBody() {
+    const newData = this.reFormatData();
+    return Object.values(newData).map(job => {
+      return (
+        <RowItem
+          job = {job}
+          key = {job.id}
+          />
+      );
+    });
+  }
+
+  render() {
     let table = null;
+
     if (this.state.applicants && this.state.skills && this.state.jobs) {
-      const newData = this.reFormatData();
-
-      const list = Object.values(newData).map(job => {
-        return (
-             <RowItem
-               job = {job}
-               key = {job.id}
-               />
-        );
-      });
-
       table = (
         <table className="job-applicants">
           <thead>
@@ -91,12 +97,12 @@ class Main extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {list}
+            {this.renderTableBody()}
           </tbody>
           <tfoot>
             <tr>
               <td
-                colSpan="6">{this.state.applicants.length} Applicants, {uniqueSkillCount} Unique Skills
+                colSpan="6">{this.state.applicants.length} Applicants, {this.countUniqueSkills()} Unique Skills
               </td>
             </tr>
           </tfoot>
