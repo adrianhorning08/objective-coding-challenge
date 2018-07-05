@@ -14,7 +14,7 @@ const TableRowElement = props => {
       <td
         rowSpan={props.applicant.skills.length}
         className="applicant-name">
-        {props.applicant ? props.applicant.name : null}
+        {props.applicant.name}
       </td>
 
       <td

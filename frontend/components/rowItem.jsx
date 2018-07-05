@@ -4,7 +4,7 @@ import NoApplicantsRow from './tableRowElements/NoApplicantsRow';
 
 const RowItem = props => {
 
-  const createRowElement = (key, first, job, applicant, skill) => {
+  if (props.job.applicants.length === 0) {
     return (
       <NoApplicantsRow
         key = {props.job._id}
@@ -12,10 +12,6 @@ const RowItem = props => {
         job = {props.job}
         />
     );
-  };
-
-  if (props.job.applicants.length === 0) {
-    return createRowElement(props.job_id, true, props.job, false, false);
   } else {
       return props.job.applicants.map((applicant, appIdx) => {
         return applicant.skills.map((skill,skillIdx) => {

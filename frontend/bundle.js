@@ -154,16 +154,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var RowItem = function RowItem(props) {
 
-  var createRowElement = function createRowElement(key, first, job, applicant, skill) {
+  if (props.job.applicants.length === 0) {
     return _react2.default.createElement(_NoApplicantsRow2.default, {
       key: props.job._id,
       first: true,
       job: props.job
     });
-  };
-
-  if (props.job.applicants.length === 0) {
-    return createRowElement(props.job_id, true, props.job, false, false);
   } else {
     return props.job.applicants.map(function (applicant, appIdx) {
       return applicant.skills.map(function (skill, skillIdx) {
@@ -543,7 +539,7 @@ var TableRowElement = function TableRowElement(props) {
       {
         rowSpan: props.applicant.skills.length,
         className: "applicant-name" },
-      props.applicant ? props.applicant.name : null
+      props.applicant.name
     ),
     _react2.default.createElement(
       "td",
