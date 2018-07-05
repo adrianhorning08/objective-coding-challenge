@@ -4,11 +4,10 @@ const mongoose = require('mongoose');
 const Applicant = require('./models/Applicant');
 const Job = require('./models/Job');
 const Skill = require('./models/Skill');
-const key = require('./config');
 
 const app = express();
 
-mongoose.connect(key.mongoURI);
+mongoose.connect('mongodb://testuser:password1@ds221271.mlab.com:21271/objective');
 app.use(express.static('frontend'))
 
 app.get('/', async (req, res) => {
