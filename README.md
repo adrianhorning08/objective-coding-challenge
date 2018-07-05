@@ -30,7 +30,9 @@ I used the MERN stack. Used [mLab](https://mlab.com/) to host MongoDB.
 
 ## Additional Thoughts
 
+* Added 2 more jobs, and 1 applicant to show what happens when an Applicant has 0 skills, and when a job has 0 applicants
+
 * I had to reformat the data that came from the backend.
-I could've used Redux to do that, but I thought Redux was a little overkill for this project.
+I could've used Redux to do that, but I thought Redux was a little overkill for this project
 
 * Rails would have been easier to get the data associations, because of Active Record, but I wanted to but wanted to polish my Node/NoSQL skills
