@@ -35,4 +35,4 @@ I used the MERN stack. Used [mLab](https://mlab.com/) to host MongoDB.
 * I had to reformat the data that came from the backend.
 I could've used Redux to do that, but I thought Redux was a little overkill for this project
 
-* Rails would have been easier to get the data associations, because of Active Record, but I wanted to but wanted to polish my Node/NoSQL skills
+* Rails would have been easier to get the data associations, because of Active Record, but I wanted to polish my Node/NoSQL skills
