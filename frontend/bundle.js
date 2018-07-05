@@ -142,21 +142,23 @@ var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _trElement = __webpack_require__(/*! ./trElement */ "./frontend/components/trElement.jsx");
+var _trElement = __webpack_require__(/*! ./tableRowElements/trElement */ "./frontend/components/tableRowElements/trElement.jsx");
 
 var _trElement2 = _interopRequireDefault(_trElement);
+
+var _NoApplicantsRow = __webpack_require__(/*! ./tableRowElements/NoApplicantsRow */ "./frontend/components/tableRowElements/NoApplicantsRow.jsx");
+
+var _NoApplicantsRow2 = _interopRequireDefault(_NoApplicantsRow);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RowItem = function RowItem(props) {
 
   var createRowElement = function createRowElement(key, first, job, applicant, skill) {
-    return _react2.default.createElement(_trElement2.default, {
-      key: key,
-      first: first,
-      job: job,
-      applicant: applicant,
-      skill: skill
+    return _react2.default.createElement(_NoApplicantsRow2.default, {
+      key: props.job._id,
+      first: true,
+      job: props.job
     });
   };
 
@@ -166,9 +168,21 @@ var RowItem = function RowItem(props) {
     return props.job.applicants.map(function (applicant, appIdx) {
       return applicant.skills.map(function (skill, skillIdx) {
         if (appIdx === 0 && skillIdx === 0) {
-          return createRowElement(applicant._id, true, props.job, applicant, skill);
+          return _react2.default.createElement(_trElement2.default, {
+            key: applicant._id,
+            first: true,
+            job: props.job,
+            applicant: applicant,
+            skill: skill
+          });
         } else if (appIdx !== 0 && skillIdx === 0) {
-          return createRowElement(applicant._id, false, props.job, applicant, skill);
+          return _react2.default.createElement(_trElement2.default, {
+            key: applicant._id,
+            first: false,
+            job: props.job,
+            applicant: applicant,
+            skill: skill
+          });
         } else {
           return _react2.default.createElement(
             'tr',
@@ -438,10 +452,57 @@ exports.default = Main;
 
 /***/ }),
 
-/***/ "./frontend/components/trElement.jsx":
-/*!*******************************************!*\
-  !*** ./frontend/components/trElement.jsx ***!
-  \*******************************************/
+/***/ "./frontend/components/tableRowElements/NoApplicantsRow.jsx":
+/*!******************************************************************!*\
+  !*** ./frontend/components/tableRowElements/NoApplicantsRow.jsx ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var NoApplicantsRow = function NoApplicantsRow(props) {
+  return _react2.default.createElement(
+    "tr",
+    { key: props.job._id },
+    _react2.default.createElement(
+      "td",
+      {
+        rowSpan: "1",
+        className: "job-name" },
+      props.job.name
+    ),
+    _react2.default.createElement("td", {
+      rowSpan: "1",
+      className: "applicant-name" }),
+    _react2.default.createElement("td", {
+      rowSpan: props.skill ? props.applicant.skills.length : 1 }),
+    _react2.default.createElement("td", {
+      rowSpan: "1" }),
+    _react2.default.createElement("td", null),
+    _react2.default.createElement("td", { rowSpan: "1" })
+  );
+};
+
+exports.default = NoApplicantsRow;
+
+/***/ }),
+
+/***/ "./frontend/components/tableRowElements/trElement.jsx":
+/*!************************************************************!*\
+  !*** ./frontend/components/tableRowElements/trElement.jsx ***!
+  \************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -461,7 +522,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var TableRowElement = function TableRowElement(props) {
   return _react2.default.createElement(
     "tr",
-    { key: props.applicant ? props.applicant.id : props.job._id },
+    { key: props.applicant.id },
     props.first ? _react2.default.createElement(
       "td",
       {
@@ -472,14 +533,14 @@ var TableRowElement = function TableRowElement(props) {
     _react2.default.createElement(
       "td",
       {
-        rowSpan: props.skill ? props.applicant.skills.length : 1,
+        rowSpan: props.applicant.skills.length,
         className: "applicant-name" },
       props.applicant ? props.applicant.name : null
     ),
     _react2.default.createElement(
       "td",
       {
-        rowSpan: props.skill ? props.applicant.skills.length : 1 },
+        rowSpan: props.applicant.skills.length },
       _react2.default.createElement(
         "a",
         { href: "mailto:" + props.applicant.email },
@@ -489,12 +550,12 @@ var TableRowElement = function TableRowElement(props) {
     _react2.default.createElement(
       "td",
       {
-        rowSpan: props.skill ? props.applicant.skills.length : 1 },
-      props.applicant ? _react2.default.createElement(
+        rowSpan: props.applicant.skills.length },
+      _react2.default.createElement(
         "a",
         { href: "http://" + props.applicant.website + "/" },
         props.applicant.website
-      ) : null
+      )
     ),
     props.skill ? _react2.default.createElement(
       "td",
@@ -503,8 +564,8 @@ var TableRowElement = function TableRowElement(props) {
     ) : _react2.default.createElement("td", null),
     _react2.default.createElement(
       "td",
-      { rowSpan: props.skill ? props.applicant.skills.length : 1 },
-      props.applicant ? props.applicant.cover_letter ? props.applicant.cover_letter : null : null
+      { rowSpan: props.applicant.skills.length },
+      props.applicant.cover_letter
     )
   );
 };
@@ -11303,7 +11364,7 @@ module.exports = camelizeStyleName;
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
+ * 
  */
 
 var isTextNode = __webpack_require__(/*! ./isTextNode */ "./node_modules/fbjs/lib/isTextNode.js");
@@ -11351,7 +11412,7 @@ module.exports = containsNode;
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- *
+ * 
  */
 
 function makeEmptyFunction(arg) {
@@ -11690,7 +11751,7 @@ module.exports = isTextNode;
  * LICENSE file in the root directory of this source tree.
  *
  * @typechecks
- *
+ * 
  */
 
 /*eslint-disable no-self-compare */
