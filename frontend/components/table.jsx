@@ -68,6 +68,7 @@ class Main extends React.Component {
     let table = null;
     if (this.state.applicants && this.state.skills && this.state.jobs) {
       const newData = this.reFormatData();
+
       const list = Object.values(newData).map(job => {
         return (
              <RowItem
@@ -76,6 +77,7 @@ class Main extends React.Component {
                />
         );
       });
+
       table = (
         <table className="job-applicants">
           <thead>
